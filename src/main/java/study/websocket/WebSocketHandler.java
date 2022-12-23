@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class WebSocketHandler extends TextWebSocketHandler {
 
+    //단일 서버를 사용할 경우에만 유효한 방법이다 (서버 메모리에 세션 저장)
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
     ObjectMapper mapper = new ObjectMapper();
 
@@ -77,7 +78,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String sessionId = session.getId();
-        sessions.remove(sessionId); //세션 저장소에서 연결이 끊어진 사용자 삭제
+        sessions.remove(sessionId);   //세션 저장소에서 연결이 끊어진 사용자 삭제
 
         final Message message = new Message();
         message.closeConnect();
